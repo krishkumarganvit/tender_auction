@@ -60,9 +60,14 @@ class Splash extends StatelessWidget {
               const SizedBox(height: 170),
 
               Row(
+               
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: [const Text('Copyright @2026....')],
+                  
+                children: [
+                     Text('Copyright @2026....'),
+                  
+                     ],
               ),
             ],
           ),
