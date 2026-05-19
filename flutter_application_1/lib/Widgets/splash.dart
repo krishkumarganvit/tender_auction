@@ -6,11 +6,11 @@ class Splash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     
       body: Container(
         width: double.infinity,
         height: double.infinity,
 
-     
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xff1A2980), Color(0xff26D0CE)],
@@ -25,7 +25,6 @@ class Splash extends StatelessWidget {
 
             child: Column(
               children: [
-               
                 Align(
                   alignment: Alignment.topRight,
                   child: Container(
@@ -49,7 +48,6 @@ class Splash extends StatelessWidget {
 
                 const Spacer(),
 
-              
                 Container(
                   width: 150,
                   height: 150,
@@ -74,9 +72,9 @@ class Splash extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                // App Name
+               
                 const Text(
-                  "My Awesome App",
+                  "Gov Tender Auction",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 30,
@@ -94,7 +92,6 @@ class Splash extends StatelessWidget {
 
                 const SizedBox(height: 50),
 
-             
                 SizedBox(
                   width: 45,
                   height: 45,
@@ -106,8 +103,7 @@ class Splash extends StatelessWidget {
                 ),
 
                 const Spacer(),
-
-             
+              
                 Column(
                   children: const [
                     Text(
