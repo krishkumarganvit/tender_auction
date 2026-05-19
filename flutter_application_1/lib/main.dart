@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Widgets/GovAddPg.dart';
+import 'package:flutter_application_1/Widgets/splash.dart';
 
-void main() {
-  runApp(MaterialApp(home: Govaddpg()));
+void main() async {
+  runApp(MaterialApp(home: (Splash()), debugShowCheckedModeBanner: false));
 }
