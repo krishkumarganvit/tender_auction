@@ -140,7 +140,6 @@ class MyWidget extends StatelessWidget {
             // BUTTON
             ElevatedButton.icon(
               onPressed: () {
-                
                 myList.add(
                   Profiledata(
                     title: "Full Name",
@@ -159,3 +158,5 @@ class MyWidget extends StatelessWidget {
     );
   }
 }
+
+//
