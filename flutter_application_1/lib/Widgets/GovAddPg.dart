@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
-// void main() {
-//   runApp(MaterialApp(home: Govaddpg()));
-// }
-
 class GovernmentRequirement {
   final int id;
   final String title;
   final String description;
+  // final DateTime date;
 
   const GovernmentRequirement({
     required this.id,
     required this.title,
     required this.description,
+    // required this.date,
   });
 }
 
@@ -29,18 +27,21 @@ class _GovaddpgState extends State<Govaddpg> {
       id: 1,
       title: "Road Construction",
       description: "Need contractor for highway road work",
+      // date: DateTime.now(),
     ),
 
     GovernmentRequirement(
       id: 2,
       title: "Bridge Repair",
       description: "Repair work required for old bridge",
+      // date: DateTime.now(),
     ),
 
     GovernmentRequirement(
       id: 3,
       title: "School Building",
       description: "Government school construction project",
+      // date: DateTime(2024, 6, 1),
     ),
   ];
 
@@ -109,7 +110,18 @@ class _GovaddpgState extends State<Govaddpg> {
                         ),
 
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/edit',
+                              arguments: {
+                                'id': item.id,
+                                'title': item.title,
+                                'description': item.description,
+                                //'date': item.date.toString(),
+                              },
+                            );
+                          },
                           icon: const Icon(Icons.edit),
                         ),
                         const SizedBox(width: 5),
