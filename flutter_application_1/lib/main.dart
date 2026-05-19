@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'Widgets/splash.dart';
+import 'Widgets/AddPage.dart';
 
 void main() {
-  runApp(MaterialApp(home: const Splash(), debugShowCheckedModeBanner: false));
+  runApp(MaterialApp(home: Addpage()));
 }
