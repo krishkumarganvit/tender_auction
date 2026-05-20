@@ -74,7 +74,10 @@ class FragmentHoldState extends State<FragmentHold> {
                       ),
                     );
                   case '/add':
-                    return MaterialPageRoute(builder: (context) => Addpage());
+                    return MaterialPageRoute(
+                      builder: (context) =>
+                          Addpage(requirementList: requirementList),
+                    );
 
                   default:
                     return null;
