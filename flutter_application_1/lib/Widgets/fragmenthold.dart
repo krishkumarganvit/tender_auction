@@ -9,7 +9,7 @@ class GovernmentRequirement {
   String description;
   DateTime date;
 
-  const GovernmentRequirement({
+  GovernmentRequirement({
     required this.id,
     required this.title,
     required this.description,
@@ -51,41 +51,37 @@ class FragmentHoldState extends State<FragmentHold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Navigator(
-              initialRoute: '/',
-              onGenerateRoute: (settings) {
-                switch (settings.name) {
-                  case '/':
-                    return MaterialPageRoute(
-                      builder: (context) =>
-                          Govaddpg(requirement: requirementList),
-                    );
+      body: Navigator(
+        initialRoute: '/',
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/':
+              return MaterialPageRoute(
+                builder: (context) => Govaddpg(requirement: requirementList),
+              );
 
-                  case '/edit':
-                    final args = settings.arguments as Map<String, dynamic>;
+            case '/edit':
+              final args = settings.arguments as Map<String, dynamic>;
 
-                    return MaterialPageRoute(
-                      builder: (context) => EditPage(
-                        requirementList: args['list'],
-                        index: args['index'],
-                      ),
-                    );
-                  case '/add':
-                    return MaterialPageRoute(
-                      builder: (context) =>
-                          Addpage(requirementList: requirementList),
-                    );
+              return MaterialPageRoute(
+                builder: (context) => EditPage(
+                  requirementList: args['list'],
+                  index: args['index'],
+                ),
+              );
 
-                  default:
-                    return null;
-                }
-              },
-            ),
-          ),
-        ],
+            case '/add':
+              return MaterialPageRoute(
+                builder: (context) => Addpage(requirementList: requirementList),
+              );
+
+            default:
+              return MaterialPageRoute(
+                builder: (context) =>
+                    const Scaffold(body: Center(child: Text("Page Not Found"))),
+              );
+          }
+        },
       ),
     );
   }
