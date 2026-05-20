@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: EditPage(
-        id: 1,
-        title: 'title',
-        description: 'description',
-        // date: DateTime.now(),
-      ),   
-    ),
-  );
-}
+// void main() {
+//   runApp(
+//     MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: EditPage(
+//         id: 1,
+//         title: 'title',
+//         description: 'description',
+//         // date: DateTime.now(),
+//       ),
+//     ),
+//   );
+// }
 
 class EditPage extends StatefulWidget {
   final int id;
   final String title;
   final String description;
-  // final DateTime date;
+  final DateTime date;
 
   const EditPage({
     super.key,
     required this.id,
     required this.title,
     required this.description,
-    // required this.date,
+    required this.date,
   });
 
   @override
@@ -36,7 +36,7 @@ class _EditPageState extends State<EditPage> {
   late TextEditingController idController;
   late TextEditingController titleController;
   late TextEditingController descriptionController;
-  // late TextEditingController dateController;
+  late TextEditingController dateController;
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _EditPageState extends State<EditPage> {
 
     descriptionController = TextEditingController(text: widget.description);
 
-    // dateController = TextEditingController(text: widget.date.toString());
+    dateController = TextEditingController(text: widget.date.toString());
   }
 
   @override
@@ -56,7 +56,7 @@ class _EditPageState extends State<EditPage> {
     idController.dispose();
     titleController.dispose();
     descriptionController.dispose();
-    // dateController.dispose();
+    dateController.dispose();
     super.dispose();
   }
 
@@ -92,8 +92,7 @@ class _EditPageState extends State<EditPage> {
 
             customField("Enter the new description", descriptionController),
 
-            // customField("Enter the new date", dateController),
-
+            customField("Enter the new date", dateController),
             const SizedBox(height: 20),
 
             ElevatedButton(
@@ -101,7 +100,7 @@ class _EditPageState extends State<EditPage> {
                 print(idController.text);
                 print(titleController.text);
                 print(descriptionController.text);
-                // print(dateController.text);
+                print(dateController.text);
               },
               child: const Text("Save"),
             ),

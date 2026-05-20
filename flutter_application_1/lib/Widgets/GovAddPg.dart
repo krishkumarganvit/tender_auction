@@ -1,18 +1,6 @@
 import 'package:flutter/material.dart';
 
-class GovernmentRequirement {
-  final int id;
-  final String title;
-  final String description;
-  // final DateTime date;
 
-  const GovernmentRequirement({
-    required this.id,
-    required this.title,
-    required this.description,
-    // required this.date,
-  });
-}
 
 class Govaddpg extends StatefulWidget {
   const Govaddpg({super.key});
@@ -22,28 +10,7 @@ class Govaddpg extends StatefulWidget {
 }
 
 class _GovaddpgState extends State<Govaddpg> {
-  List<GovernmentRequirement> requirementList = [
-    GovernmentRequirement(
-      id: 1,
-      title: "Road Construction",
-      description: "Need contractor for highway road work",
-      // date: DateTime.now(),
-    ),
-
-    GovernmentRequirement(
-      id: 2,
-      title: "Bridge Repair",
-      description: "Repair work required for old bridge",
-      // date: DateTime.now(),
-    ),
-
-    GovernmentRequirement(
-      id: 3,
-      title: "School Building",
-      description: "Government school construction project",
-      // date: DateTime(2024, 6, 1),
-    ),
-  ];
+  
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +85,7 @@ class _GovaddpgState extends State<Govaddpg> {
                                 'id': item.id,
                                 'title': item.title,
                                 'description': item.description,
-                                //'date': item.date.toString(),
+                                'date': item.date.toString(),
                               },
                             );
                           },
