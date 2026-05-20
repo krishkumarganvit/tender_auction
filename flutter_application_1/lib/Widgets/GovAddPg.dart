@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Govaddpg extends StatefulWidget {
-  final List<dynamic> requirement;
+  List<dynamic> requirement;
 
   const Govaddpg({super.key, required this.requirement});
 
