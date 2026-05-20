@@ -1,107 +1,66 @@
 import 'package:flutter/material.dart';
 
-// void main() {
-//   runApp(
-//     MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: EditPage(
-//         id: 1,
-//         title: 'title',
-//         description: 'description',
-//         // date: DateTime.now(),
-//       ),
-//     ),
-//   );
-// }
+class EditPageState extends StatelessWidget {
+  final Map<String, dynamic> data;
 
-class EditPage extends StatefulWidget {
-  final int id;
-  final String title;
-  final String description;
-  final DateTime date;
+  EditPageState({super.key, required this.data});
 
-  const EditPage({
-    super.key,
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.date,
-  });
+  late final TextEditingController idController = TextEditingController(
+    text: data['id'].toString(),
+  );
 
-  @override
-  State<EditPage> createState() => _EditPageState();
-}
+  late final TextEditingController titleController = TextEditingController(
+    text: data['title'],
+  );
 
-class _EditPageState extends State<EditPage> {
-  late TextEditingController idController;
-  late TextEditingController titleController;
-  late TextEditingController descriptionController;
-  late TextEditingController dateController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    idController = TextEditingController(text: widget.id.toString());
-
-    titleController = TextEditingController(text: widget.title);
-
-    descriptionController = TextEditingController(text: widget.description);
-
-    dateController = TextEditingController(text: widget.date.toString());
-  }
-
-  @override
-  void dispose() {
-    idController.dispose();
-    titleController.dispose();
-    descriptionController.dispose();
-    dateController.dispose();
-    super.dispose();
-  }
-
-  Widget customField(String label, TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-      ),
-    );
-  }
+  late final TextEditingController descriptionController =
+      TextEditingController(text: data['description']);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Edit Page"),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 43, 68, 208),
-      ),
+      appBar: AppBar(title: const Text("Edit Page"), centerTitle: true),
 
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.all(16),
+
         child: Column(
           children: [
-            customField("Enter the new ID", idController),
+            TextField(
+              controller: idController,
 
-            customField("Enter the new title", titleController),
+              decoration: const InputDecoration(labelText: "ID"),
+            ),
 
-            customField("Enter the new description", descriptionController),
+            const SizedBox(height: 15),
 
-            customField("Enter the new date", dateController),
+            TextField(
+              controller: titleController,
+
+              decoration: const InputDecoration(labelText: "Title"),
+            ),
+
+            const SizedBox(height: 15),
+
+            TextField(
+              controller: descriptionController,
+
+              decoration: const InputDecoration(labelText: "Description"),
+            ),
+
             const SizedBox(height: 20),
 
             ElevatedButton(
               onPressed: () {
-                print(idController.text);
-                print(titleController.text);
-                print(descriptionController.text);
-                print(dateController.text);
+                data['id'] = int.parse(idController.text);
+
+                data['title'] = titleController.text;
+
+                data['description'] = descriptionController.text;
+
+                Navigator.pop(context);
               },
+
               child: const Text("Save"),
             ),
           ],
