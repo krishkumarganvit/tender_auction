@@ -62,16 +62,20 @@ class FragmentHoldState extends State<FragmentHold> {
                       builder: (context) => const Govaddpg(),
                     );
 
-                  case '/edit':
-                    final args = settings.arguments as Map<String, dynamic>;
-                    return MaterialPageRoute(
-                      builder: (context) => EditPage(
-                        id: args['id'],
-                        title: args['title'],
-                        description: args['description'],
-                        date: args['date'],
-                      ),
-                    );
+            case '/edit':
+              final args = settings.arguments as Map<String, dynamic>;
+
+              return MaterialPageRoute(
+                builder: (context) => EditPage(
+                  requirementList: args['list'],
+                  index: args['index'],
+                ),
+              );
+
+            case '/add':
+              return MaterialPageRoute(
+                builder: (context) => Addpage(requirementList: requirementList),
+              );
 
                   default:
                     return null;
