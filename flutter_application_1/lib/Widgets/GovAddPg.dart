@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Govaddpg extends StatefulWidget {
-  final List<dynamic> requirement;
-
-  const Govaddpg({super.key, required this.requirement});
-
-  @override
-  State<Govaddpg> createState() => _GovaddpgState();
-}
-
-class _GovaddpgState extends State<Govaddpg> {
+class GovaddpgState extends StatelessWidget {
+  List<dynamic> requirement;
+  GovaddpgState({super.key, required this.requirement});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +29,10 @@ class _GovaddpgState extends State<Govaddpg> {
 
             Expanded(
               child: ListView.builder(
-                itemCount: widget.requirement.length,
+                itemCount: requirement.length,
 
                 itemBuilder: (context, index) {
-                  final item = widget.requirement[index];
+                  final item = requirement[index];
 
                   return Container(
                     width: double.infinity,
@@ -89,11 +82,7 @@ class _GovaddpgState extends State<Govaddpg> {
                               context,
                               '/edit',
 
-                              arguments: {
-                                'id': item.id,
-                                'title': item.title,
-                                'description': item.description,
-                              },
+                              arguments: {'index': index},
                             );
                           },
 
@@ -103,11 +92,7 @@ class _GovaddpgState extends State<Govaddpg> {
                         const SizedBox(width: 5),
 
                         IconButton(
-                          onPressed: () {
-                            setState(() {
-                              widget.requirement.removeAt(index);
-                            });
-                          },
+                          onPressed: () {},
 
                           icon: const Icon(Icons.delete),
                         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'fragmenthold.dart';
 
 class Addpage extends StatefulWidget {
-  final List<GovernmentRequirement> requirementList;
+  final List<dynamic> requirementList;
 
   const Addpage({super.key, required this.requirementList});
 
@@ -21,17 +21,11 @@ class AddpageState extends State<Addpage> {
 
   void _addData() {
     final id = int.tryParse(_idController.text.trim());
-
     final title = _titleController.text.trim();
-
     final description = _descriptionController.text.trim();
-
     final dateText = _dateController.text.trim();
 
-    if (id == null ||
-        title.isEmpty ||
-        description.isEmpty ||
-        dateText.isEmpty) {
+    if (id == null || title.isEmpty || description.isEmpty || dateText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please fill all fields correctly")),
       );
@@ -39,25 +33,24 @@ class AddpageState extends State<Addpage> {
     }
 
     final date = DateTime.tryParse(dateText);
-
     if (date == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Invalid date format")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Invalid date format")),
+      );
       return;
     }
 
-    setState(() {
-      widget.requirementList.add(
-        GovernmentRequirement(
-          id: id,
-          title: title,
-          description: description,
-          date: date,
-        ),
-      );
-    });
-    Navigator.pop(context);
+    widget.requirementList.add(
+      GovernmentRequirement(
+        id: id,
+        title: title,
+        description: description,
+        date: date,
+      ),
+    );
+
+    // Pass 'true' back up to tell GovaddpgState to call setState()
+    Navigator.pop(context, true); 
   }
 
   @override

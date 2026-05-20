@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 
 class Splash extends StatelessWidget {
   const Splash({super.key});
+  void navi() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const FragmentHold()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -47,7 +52,6 @@ class Splash extends StatelessWidget {
                 ),
 
                 const Spacer(),
-
                 Container(
                   width: 150,
                   height: 150,
@@ -72,7 +76,6 @@ class Splash extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-               
                 const Text(
                   "Gov Tender Auction",
                   style: TextStyle(
@@ -103,7 +106,7 @@ class Splash extends StatelessWidget {
                 ),
 
                 const Spacer(),
-              
+
                 Column(
                   children: const [
                     Text(
@@ -120,6 +123,12 @@ class Splash extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                Container(
+                  child: ElevatedButton(
+                    onPressed: navi,
+                    child: Text('go to home'),
+                  ),
                 ),
               ],
             ),

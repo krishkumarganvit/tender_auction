@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'govaddpg.dart';
+import 'package:flutter_application_1/Widgets/GovAddPg.dart';
+
 import 'EditPage.dart';
 import 'AddPage.dart';
 
@@ -57,15 +58,16 @@ class FragmentHoldState extends State<FragmentHold> {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                builder: (context) => Govaddpg(requirement: requirementList),
+                builder: (context) =>
+                    GovaddpgState(requirement: requirementList),
               );
 
             case '/edit':
               final args = settings.arguments as Map<String, dynamic>;
 
               return MaterialPageRoute(
-                builder: (context) => EditPage(
-                  requirementList: args['list'],
+                builder: (context) => EditPageState(
+                  requirementList: requirementList,
                   index: args['index'],
                 ),
               );

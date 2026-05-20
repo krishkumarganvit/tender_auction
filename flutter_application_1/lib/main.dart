@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_application_1/Widgets/fragmenthold.dart';
+import 'package:flutter_application_1/Widgets/splash.dart';
 
 void main() {
-  runApp(
-    MaterialApp(home: const FragmentHold(), debugShowCheckedModeBanner: false),
-  );
+  runApp(MaterialApp(home: const Splash(), debugShowCheckedModeBanner: false));
 }
