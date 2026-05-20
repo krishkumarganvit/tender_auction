@@ -66,12 +66,11 @@ class FragmentHoldState extends State<FragmentHold> {
 
                   case '/edit':
                     final args = settings.arguments as Map<String, dynamic>;
+
                     return MaterialPageRoute(
                       builder: (context) => EditPage(
-                        id: args['id'],
-                        title: args['title'],
-                        description: args['description'],
-                        date: args['date'],
+                        requirementList: args['list'],
+                        index: args['index'],
                       ),
                     );
                   case '/add':
