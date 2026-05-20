@@ -4,10 +4,10 @@ import 'EditPage.dart';
 import 'AddPage.dart';
 
 class GovernmentRequirement {
-  final int id;
-  final String title;
-  final String description;
-  final DateTime date;
+  int id;
+  String title;
+  String description;
+  DateTime date;
 
   const GovernmentRequirement({
     required this.id,
