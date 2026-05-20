@@ -7,13 +7,13 @@ class GovernmentRequirement {
   final int id;
   final String title;
   final String description;
-  // final DateTime date;
+  final DateTime date;
 
   const GovernmentRequirement({
     required this.id,
     required this.title,
     required this.description,
-    // required this.date,
+    required this.date,
   });
 }
 
@@ -30,21 +30,21 @@ class FragmentHoldState extends State<FragmentHold> {
       id: 1,
       title: "Road Construction",
       description: "Need contractor for highway road work",
-      // date: DateTime.now(),
+      date: DateTime.now(),
     ),
 
     GovernmentRequirement(
       id: 2,
       title: "Bridge Repair",
       description: "Repair work required for old bridge",
-      // date: DateTime.now(),
+      date: DateTime.now(),
     ),
 
     GovernmentRequirement(
       id: 3,
       title: "School Building",
       description: "Government school construction project",
-      // date: DateTime(2024, 6, 1),
+      date: DateTime(2024, 6, 1),
     ),
   ];
 
@@ -71,7 +71,7 @@ class FragmentHoldState extends State<FragmentHold> {
                         id: args['id'],
                         title: args['title'],
                         description: args['description'],
-                        // date: args['date'],
+                        date: args['date'],
                       ),
                     );
                   case '/add':
