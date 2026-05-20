@@ -15,6 +15,9 @@ class EditPageState extends StatelessWidget {
 
   late final TextEditingController descriptionController =
       TextEditingController(text: data['description']);
+  late final TextEditingController dateController = TextEditingController(
+    text: data['date'].toString(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,14 @@ class EditPageState extends StatelessWidget {
               decoration: const InputDecoration(labelText: "Description"),
             ),
 
+            const SizedBox(height: 15),
+
+            TextField(
+              controller: dateController,
+
+              decoration: const InputDecoration(labelText: "Date"),
+            ),
+
             const SizedBox(height: 20),
 
             ElevatedButton(
@@ -57,6 +68,8 @@ class EditPageState extends StatelessWidget {
                 data['title'] = titleController.text;
 
                 data['description'] = descriptionController.text;
+
+                data['date'] = DateTime.parse(dateController.text);
 
                 Navigator.pop(context);
               },
