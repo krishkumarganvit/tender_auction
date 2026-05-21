@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Widgets/GovAddPg.dart';
 
-import 'EditPage.dart';
+import 'GovAddPg.dart';
 import 'AddPage.dart';
+import 'EditPage.dart';
 
 class GovernmentRequirement {
   int id;
@@ -31,21 +31,21 @@ class FragmentHoldState extends State<FragmentHold> {
       id: 1,
       title: "Road Construction",
       description: "Need contractor for highway road work",
-      date: DateTime.now(),
+      date: DateTime(2026, 5, 20),
     ),
 
     GovernmentRequirement(
       id: 2,
       title: "Bridge Repair",
       description: "Repair work required for old bridge",
-      date: DateTime.now(),
+      date: DateTime(2026, 5, 21),
     ),
 
     GovernmentRequirement(
       id: 3,
       title: "School Building",
       description: "Government school construction project",
-      date: DateTime(2024, 6, 1),
+      date: DateTime(2026, 5, 22),
     ),
   ];
 
@@ -54,6 +54,7 @@ class FragmentHoldState extends State<FragmentHold> {
     return Scaffold(
       body: Navigator(
         initialRoute: '/',
+
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
@@ -62,19 +63,30 @@ class FragmentHoldState extends State<FragmentHold> {
                     GovaddpgState(requirement: requirementList),
               );
 
+            case '/add':
+              return MaterialPageRoute(
+                builder: (context) => Addpage(
+                  requirementList: requirementList,
+
+                  onRefresh: () {
+                    setState(() {});
+                  },
+                ),
+              );
+
             case '/edit':
               final args = settings.arguments as Map<String, dynamic>;
 
               return MaterialPageRoute(
                 builder: (context) => EditPageState(
                   requirementList: requirementList,
-                  index: args['index'],
-                ),
-              );
 
-            case '/add':
-              return MaterialPageRoute(
-                builder: (context) => Addpage(requirementList: requirementList),
+                  index: args['index'],
+
+                  onRefresh: () {
+                    setState(() {});
+                  },
+                ),
               );
 
             default:
