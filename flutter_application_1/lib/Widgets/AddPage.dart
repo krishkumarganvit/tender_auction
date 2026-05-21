@@ -1,98 +1,96 @@
 import 'package:flutter/material.dart';
+
 import 'fragmenthold.dart';
 
 class Addpage extends StatefulWidget {
-  final List<dynamic> requirementList;
+  final List<GovernmentRequirement> requirementList;
 
-  const Addpage({super.key, required this.requirementList});
+  final VoidCallback onRefresh;
+
+  const Addpage({
+    super.key,
+    required this.requirementList,
+    required this.onRefresh,
+  });
 
   @override
   State<Addpage> createState() => AddpageState();
 }
 
 class AddpageState extends State<Addpage> {
-  final TextEditingController _idController = TextEditingController();
+  final TextEditingController idController = TextEditingController();
 
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
 
-  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
 
-  void _addData() {
-    final id = int.tryParse(_idController.text.trim());
-    final title = _titleController.text.trim();
-    final description = _descriptionController.text.trim();
-    final dateText = _dateController.text.trim();
+  void addData() {
+    final id = int.tryParse(idController.text);
 
-    if (id == null || title.isEmpty || description.isEmpty || dateText.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill all fields correctly")),
-      );
-      return;
-    }
-
-    final date = DateTime.tryParse(dateText);
-    if (date == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Invalid date format")),
-      );
+    if (id == null) {
       return;
     }
 
     widget.requirementList.add(
       GovernmentRequirement(
         id: id,
-        title: title,
-        description: description,
-        date: date,
+        title: titleController.text,
+        description: descriptionController.text,
+
+        date: DateTime.tryParse(dateController.text) ?? DateTime.now(),
       ),
     );
 
-    // Pass 'true' back up to tell GovaddpgState to call setState()
-    Navigator.pop(context, true); 
+    widget.onRefresh();
+
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Requirement")),
+      appBar: AppBar(title: const Text("Add Page")),
 
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
 
         child: Column(
           children: [
             TextField(
-              controller: _idController,
-              keyboardType: TextInputType.number,
+              controller: idController,
 
-              decoration: const InputDecoration(labelText: 'Enter ID'),
+              decoration: const InputDecoration(labelText: "Enter ID"),
             ),
+
+            const SizedBox(height: 15),
 
             TextField(
-              controller: _titleController,
+              controller: titleController,
 
-              decoration: const InputDecoration(labelText: 'Enter Title'),
+              decoration: const InputDecoration(labelText: "Enter Title"),
             ),
+
+            const SizedBox(height: 15),
 
             TextField(
-              controller: _descriptionController,
+              controller: descriptionController,
 
-              decoration: const InputDecoration(labelText: 'Enter Description'),
+              decoration: const InputDecoration(labelText: "Enter Description"),
             ),
+
+            const SizedBox(height: 15),
 
             TextField(
-              controller: _dateController,
+              controller: dateController,
 
-              decoration: const InputDecoration(
-                labelText: 'Enter Date (yyyy-mm-dd)',
-              ),
+              decoration: const InputDecoration(labelText: "yyyy-mm-dd"),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 25),
 
-            ElevatedButton(onPressed: _addData, child: const Text("Add Data")),
+            ElevatedButton(onPressed: addData, child: const Text("Add")),
           ],
         ),
       ),
