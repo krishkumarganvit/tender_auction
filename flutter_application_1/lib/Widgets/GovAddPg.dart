@@ -1,108 +1,242 @@
+// GovAddPg.dart
+
 import 'package:flutter/material.dart';
 
-class GovaddpgState extends StatelessWidget {
-  List<dynamic> requirement;
-  GovaddpgState({super.key, required this.requirement});
+class GovaddpgState extends StatefulWidget {
+  final List<dynamic> requirement;
+
+  final Function() onRefresh;
+
+  const GovaddpgState({
+    super.key,
+    required this.requirement,
+    required this.onRefresh,
+  });
+
+  @override
+  State<GovaddpgState> createState() => _GovaddpgStateState();
+}
+
+class _GovaddpgStateState extends State<GovaddpgState> {
+  String selectedFilter = "All";
+
+  List<dynamic> get filteredList {
+    if (selectedFilter == "All") {
+      return widget.requirement;
+    }
+
+    return widget.requirement.where((item) {
+      String itemDate = item.date.toString().split(' ')[0];
+
+      return itemDate == selectedFilter;
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        margin: const EdgeInsets.all(20),
-        padding: const EdgeInsets.all(20),
+      backgroundColor: const Color(0xffF4EEF5),
 
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/add');
-                  },
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
 
-                  icon: const Icon(Icons.add),
-                ),
-              ],
-            ),
+          margin: const EdgeInsets.all(15),
 
-            Expanded(
-              child: ListView.builder(
-                itemCount: requirement.length,
+          padding: const EdgeInsets.all(10),
 
-                itemBuilder: (context, index) {
-                  final item = requirement[index];
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
 
-                  return Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(bottom: 15),
-                    padding: const EdgeInsets.all(15),
-
+                children: [
+                  Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFFBDBDBD),
+                      color: Colors.white,
 
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(12),
 
                       boxShadow: const [
-                        BoxShadow(
-                          color: Colors.white,
-                          blurRadius: 8,
-                          offset: Offset(2, 2),
-                        ),
+                        BoxShadow(color: Colors.black12, blurRadius: 5),
                       ],
                     ),
 
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/add');
+                      },
 
-                            children: [
-                              Text(
-                                item.title,
+                      icon: const Icon(Icons.add, size: 30),
+                    ),
+                  ),
+                ],
+              ),
 
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+              const SizedBox(height: 10),
+
+              Row(
+                children: [
+                  const Text(
+                    "Filter By Date : ",
+
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+
+                      value: selectedFilter,
+
+                      items:
+                          [
+                            "All",
+
+                            ...widget.requirement
+                                .map(
+                                  (item) => item.date.toString().split(' ')[0],
+                                )
+                                .toSet()
+                                .toList(),
+                          ].map((date) {
+                            return DropdownMenuItem(
+                              value: date,
+
+                              child: Text(date),
+                            );
+                          }).toList(),
+
+                      onChanged: (value) {
+                        setState(() {
+                          selectedFilter = value!;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: filteredList.length,
+
+                  itemBuilder: (context, index) {
+                    final item = filteredList[index];
+
+                    return Container(
+                      width: double.infinity,
+
+                      margin: const EdgeInsets.only(bottom: 18),
+
+                      padding: const EdgeInsets.all(18),
+
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFBDBDBD),
+
+                        borderRadius: BorderRadius.circular(15),
+
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+
+                            blurRadius: 6,
+
+                            offset: Offset(2, 2),
+                          ),
+                        ],
+                      ),
+
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+
+                              children: [
+                                Text(
+                                  item.title,
+
+                                  style: const TextStyle(
+                                    fontSize: 24,
+
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+
+                                const SizedBox(height: 10),
+
+                                Text(
+                                  item.description,
+
+                                  style: const TextStyle(fontSize: 17),
+                                ),
+
+                                const SizedBox(height: 10),
+
+                                Text(
+                                  item.date.toString().split(' ')[0],
+
+                                  style: const TextStyle(
+                                    fontSize: 15,
+
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          const SizedBox(width: 10),
+
+                          Column(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+
+                                    '/edit',
+
+                                    arguments: {
+                                      'index': widget.requirement.indexOf(item),
+                                    },
+                                  );
+                                },
+
+                                icon: const Icon(Icons.edit, size: 30),
                               ),
 
-                              const SizedBox(height: 5),
+                              const SizedBox(height: 8),
 
-                              Text(item.description),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    widget.requirement.remove(item);
+                                  });
+
+                                  widget.onRefresh();
+                                },
+
+                                icon: const Icon(Icons.delete, size: 30),
+                              ),
                             ],
                           ),
-                        ),
-
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/edit',
-
-                              arguments: {'index': index},
-                            );
-                          },
-
-                          icon: const Icon(Icons.edit),
-                        ),
-
-                        const SizedBox(width: 5),
-
-                        IconButton(
-                          onPressed: () {},
-
-                          icon: const Icon(Icons.delete),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
