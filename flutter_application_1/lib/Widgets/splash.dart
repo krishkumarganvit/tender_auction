@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'fragmenthold.dart';
 
 class Splash extends StatelessWidget {
   const Splash({super.key});
-  void navi() {
+
+  void navi(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const FragmentHold()),
@@ -52,6 +54,7 @@ class Splash extends StatelessWidget {
                 ),
 
                 const Spacer(),
+
                 Container(
                   width: 150,
                   height: 150,
@@ -95,7 +98,7 @@ class Splash extends StatelessWidget {
 
                 const SizedBox(height: 50),
 
-                SizedBox(
+                const SizedBox(
                   width: 45,
                   height: 45,
                   child: CircularProgressIndicator(
@@ -124,10 +127,30 @@ class Splash extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
+
+                const SizedBox(height: 20),
+
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
                   child: ElevatedButton(
-                    onPressed: navi,
-                    child: Text('go to home'),
+                    onPressed: () => navi(context),
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: const Color(0xff1A2980),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+
+                    child: const Text(
+                      'Go To Home',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],
