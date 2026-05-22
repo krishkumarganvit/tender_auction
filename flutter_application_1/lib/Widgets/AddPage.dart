@@ -5,7 +5,7 @@ import 'fragmenthold.dart';
 class Addpage extends StatefulWidget {
   final List<GovernmentRequirement> requirementList;
 
-  final VoidCallback onRefresh;
+  final Function() onRefresh;
 
   const Addpage({
     super.key,
@@ -36,7 +36,9 @@ class AddpageState extends State<Addpage> {
     widget.requirementList.add(
       GovernmentRequirement(
         id: id,
+
         title: titleController.text,
+
         description: descriptionController.text,
 
         date: DateTime.tryParse(dateController.text) ?? DateTime.now(),

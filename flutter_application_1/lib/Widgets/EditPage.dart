@@ -1,3 +1,5 @@
+// EditPage.dart
+
 import 'package:flutter/material.dart';
 
 import 'fragmenthold.dart';
@@ -7,7 +9,7 @@ class EditPageState extends StatefulWidget {
 
   final int index;
 
-  final VoidCallback onRefresh;
+  final Function() onRefresh;
 
   const EditPageState({
     super.key,
