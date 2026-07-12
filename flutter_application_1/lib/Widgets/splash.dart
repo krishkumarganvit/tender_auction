@@ -1,14 +1,38 @@
+ Delete
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'LoginPage.dart';
+=======
 import 'package:flutter/material.dart';
 import 'fragmenthold.dart';
+main
 
 class Splash extends StatelessWidget {
   const Splash({super.key});
 
+Delete
+  @override
+  State<Splash> createState() => _SplashState();
+}
+
+class _SplashState extends State<Splash> {
+  @override
+  void initState() {
+    super.initState();
+
+    Timer(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
+    });
+=======
   void navi(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const FragmentHold()),
     );
+ main
   }
 
   @override
@@ -17,7 +41,6 @@ class Splash extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xff1A2980), Color(0xff26D0CE)],
@@ -25,11 +48,9 @@ class Splash extends StatelessWidget {
             end: Alignment.bottomRight,
           ),
         ),
-
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
-
             child: Column(
               children: [
                 Align(
@@ -60,6 +81,8 @@ class Splash extends StatelessWidget {
                   height: 150,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
+ Delete
+=======
                     boxShadow: [
                       BoxShadow(
                         color: Colors.white.withOpacity(0.4),
@@ -67,6 +90,7 @@ class Splash extends StatelessWidget {
                         spreadRadius: 5,
                       ),
                     ],
+ main
                     border: Border.all(color: Colors.white, width: 4),
                     image: const DecorationImage(
                       image: NetworkImage(
@@ -98,6 +122,15 @@ class Splash extends StatelessWidget {
 
                 const SizedBox(height: 50),
 
+ Delete
+                const CircularProgressIndicator(color: Colors.white),
+
+                const Spacer(),
+
+                const Text(
+                  "Redirecting to Login...",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+=======
                 const SizedBox(
                   width: 45,
                   height: 45,
@@ -126,6 +159,7 @@ class Splash extends StatelessWidget {
                       ),
                     ),
                   ],
+ main
                 ),
 
                 const SizedBox(height: 20),

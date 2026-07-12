@@ -6,18 +6,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'GovAddPg.dart';
 import 'AddPage.dart';
 import 'EditPage.dart';
+import 'AucitonPage.dart';
 
 class GovernmentRequirement {
   int id;
   String title;
   String description;
   DateTime date;
+  double highestBid;
 
   GovernmentRequirement({
     required this.id,
     required this.title,
     required this.description,
     required this.date,
+    this.highestBid = 0,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,7 +29,18 @@ class GovernmentRequirement {
       'title': title,
       'description': description,
       'date': date.toIso8601String(),
+      'highestBid': highestBid,
     };
+  }
+
+  factory GovernmentRequirement.fromMap(Map<String, dynamic> map) {
+    return GovernmentRequirement(
+      id: map['id'],
+      title: map['title'],
+      description: map['description'],
+      date: DateTime.parse(map['date']),
+      highestBid: (map['highestBid'] ?? 0).toDouble(),
+    );
   }
 }
 
@@ -60,8 +74,11 @@ Future<List<GovernmentRequirement>> loadData() async {
       requirementList.add(
         GovernmentRequirement(
           id: e['id'],
+
           title: e['title'],
+
           description: e['description'],
+
           date: DateTime.parse(e['date']),
         ),
       );
@@ -118,13 +135,6 @@ class FragmentHoldState extends State<FragmentHold> {
           title: "School Building",
           description: "Government school construction project",
           date: DateTime(2026, 5, 22),
-        ),
-
-        GovernmentRequirement(
-          id: 4,
-          title: "Railway Station Renovation",
-          description: "Modernization of railway station facilities",
-          date: DateTime(2026, 5, 23),
         ),
       ];
 
@@ -189,6 +199,11 @@ class FragmentHoldState extends State<FragmentHold> {
                       ),
                     );
 
+                  case '/auction':
+                    return MaterialPageRoute(
+                      builder: (context) =>
+                          AuctionPage(requirementList: requirementList),
+                    );
                   default:
                     return MaterialPageRoute(
                       builder: (context) => const Scaffold(
