@@ -1,10 +1,7 @@
-// GovAddPg.dart
-
 import 'package:flutter/material.dart';
 
 class GovaddpgState extends StatefulWidget {
   final List<dynamic> requirement;
-
   final Function() onRefresh;
 
   const GovaddpgState({
@@ -27,216 +24,291 @@ class _GovaddpgStateState extends State<GovaddpgState> {
 
     return widget.requirement.where((item) {
       String itemDate = item.date.toString().split(' ')[0];
-
       return itemDate == selectedFilter;
     }).toList();
+  }
+
+  void showBidDialog(dynamic item) {
+    TextEditingController bidController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(item.title),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Current Highest Bid",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+
+              const SizedBox(height: 10),
+
+              Text(
+                "₹${item.highestBid.toStringAsFixed(0)}",
+                style: const TextStyle(
+                  color: Colors.green,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              TextField(
+                controller: bidController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: "Enter Your Bid",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel"),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                double bid = double.tryParse(bidController.text) ?? 0;
+
+                if (bid <= item.highestBid) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "Bid must be greater than current highest bid.",
+                      ),
+                    ),
+                  );
+                  return;
+                }
+
+                setState(() {
+                  item.highestBid = bid;
+                });
+
+                widget.onRefresh();
+
+                Navigator.pop(context);
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "Bid of ₹${bid.toStringAsFixed(0)} placed successfully!",
+                    ),
+                  ),
+                );
+              },
+              child: const Text("Submit"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF4EEF5),
+      backgroundColor: const Color(0xffEEF3F8),
 
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
+      appBar: AppBar(
+        backgroundColor: const Color(0xff1A2980),
+        title: const Text("Government Tender"),
+        centerTitle: true,
+      ),
 
-          margin: const EdgeInsets.all(15),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xff1A2980),
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.pushNamed(context, '/add');
+        },
+      ),
 
-          padding: const EdgeInsets.all(10),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
 
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const Text(
+                  "Filter : ",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
 
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
+                const SizedBox(width: 10),
 
-                      borderRadius: BorderRadius.circular(12),
-
-                      boxShadow: const [
-                        BoxShadow(color: Colors.black12, blurRadius: 5),
-                      ],
-                    ),
-
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/add');
-                      },
-
-                      icon: const Icon(Icons.add, size: 30),
-                    ),
+                Expanded(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: selectedFilter,
+                    items:
+                        [
+                          "All",
+                          ...widget.requirement
+                              .map((e) => e.date.toString().split(' ')[0])
+                              .toSet()
+                              .toList(),
+                        ].map((e) {
+                          return DropdownMenuItem(value: e, child: Text(e));
+                        }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedFilter = value!;
+                      });
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
 
-              const SizedBox(height: 10),
+            const SizedBox(height: 15),
 
-              Row(
-                children: [
-                  const Text(
-                    "Filter By Date : ",
+            Expanded(
+              child: ListView.builder(
+                itemCount: filteredList.length,
+                itemBuilder: (context, index) {
+                  final item = filteredList[index];
 
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-
-                      value: selectedFilter,
-
-                      items:
-                          [
-                            "All",
-
-                            ...widget.requirement
-                                .map(
-                                  (item) => item.date.toString().split(' ')[0],
-                                )
-                                .toSet()
-                                .toList(),
-                          ].map((date) {
-                            return DropdownMenuItem(
-                              value: date,
-
-                              child: Text(date),
-                            );
-                          }).toList(),
-
-                      onChanged: (value) {
-                        setState(() {
-                          selectedFilter = value!;
-                        });
-                      },
+                  return Card(
+                    margin: const EdgeInsets.only(bottom: 15),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              Expanded(
-                child: ListView.builder(
-                  itemCount: filteredList.length,
-
-                  itemBuilder: (context, index) {
-                    final item = filteredList[index];
-
-                    return Container(
-                      width: double.infinity,
-
-                      margin: const EdgeInsets.only(bottom: 18),
-
-                      padding: const EdgeInsets.all(18),
-
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFBDBDBD),
-
-                        borderRadius: BorderRadius.circular(15),
-
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-
-                            blurRadius: 6,
-
-                            offset: Offset(2, 2),
-                          ),
-                        ],
-                      ),
-
-                      child: Row(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-
                         children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-
-                              children: [
-                                Text(
-                                  item.title,
-
-                                  style: const TextStyle(
-                                    fontSize: 24,
-
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-
-                                const SizedBox(height: 10),
-
-                                Text(
-                                  item.description,
-
-                                  style: const TextStyle(fontSize: 17),
-                                ),
-
-                                const SizedBox(height: 10),
-
-                                Text(
-                                  item.date.toString().split(' ')[0],
-
-                                  style: const TextStyle(
-                                    fontSize: 15,
-
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ],
+                          Text(
+                            item.title,
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
 
-                          const SizedBox(width: 10),
+                          const SizedBox(height: 10),
 
-                          Column(
+                          Text(
+                            item.description,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+
+                          const SizedBox(height: 10),
+
+                          Row(
+                            children: [
+                              const Icon(Icons.calendar_today, size: 18),
+                              const SizedBox(width: 8),
+                              Text(item.date.toString().split(" ")[0]),
+                            ],
+                          ),
+
+                          const SizedBox(height: 10),
+
+                          Text(
+                            "Highest Bid : ₹${item.highestBid.toStringAsFixed(0)}",
+                            style: const TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               IconButton(
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: Colors.blue,
+                                ),
                                 onPressed: () {
                                   Navigator.pushNamed(
                                     context,
-
                                     '/edit',
-
                                     arguments: {
                                       'index': widget.requirement.indexOf(item),
                                     },
                                   );
                                 },
-
-                                icon: const Icon(Icons.edit, size: 30),
                               ),
 
-                              const SizedBox(height: 8),
-
                               IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
                                 onPressed: () {
-                                  setState(() {
-                                    widget.requirement.remove(item);
-                                  });
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text("Delete Tender"),
+                                        content: const Text(
+                                          "Are you sure you want to delete this tender?",
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("Cancel"),
+                                          ),
 
-                                  widget.onRefresh();
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                widget.requirement.remove(item);
+                                              });
+
+                                              widget.onRefresh();
+
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("Delete"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
                                 },
+                              ),
 
-                                icon: const Icon(Icons.delete, size: 30),
+                              ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xff1A2980),
+                                ),
+                                icon: const Icon(Icons.gavel),
+                                label: const Text("Bid"),
+                                onPressed: () {
+                                  showBidDialog(item);
+                                },
                               ),
                             ],
                           ),
                         ],
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
