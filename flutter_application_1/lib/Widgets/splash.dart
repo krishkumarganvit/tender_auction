@@ -1,10 +1,16 @@
+ Delete
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'LoginPage.dart';
+=======
+import 'package:flutter/material.dart';
+import 'fragmenthold.dart';
+main
 
-class Splash extends StatefulWidget {
+class Splash extends StatelessWidget {
   const Splash({super.key});
 
+Delete
   @override
   State<Splash> createState() => _SplashState();
 }
@@ -20,6 +26,13 @@ class _SplashState extends State<Splash> {
         MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     });
+=======
+  void navi(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const FragmentHold()),
+    );
+ main
   }
 
   @override
@@ -68,6 +81,16 @@ class _SplashState extends State<Splash> {
                   height: 150,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
+ Delete
+=======
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.4),
+                        blurRadius: 25,
+                        spreadRadius: 5,
+                      ),
+                    ],
+ main
                     border: Border.all(color: Colors.white, width: 4),
                     image: const DecorationImage(
                       image: NetworkImage(
@@ -86,6 +109,7 @@ class _SplashState extends State<Splash> {
                     color: Colors.white,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
                   ),
                 ),
 
@@ -96,8 +120,9 @@ class _SplashState extends State<Splash> {
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 50),
 
+ Delete
                 const CircularProgressIndicator(color: Colors.white),
 
                 const Spacer(),
@@ -105,9 +130,63 @@ class _SplashState extends State<Splash> {
                 const Text(
                   "Redirecting to Login...",
                   style: TextStyle(color: Colors.white, fontSize: 16),
+=======
+                const SizedBox(
+                  width: 45,
+                  height: 45,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    backgroundColor: Colors.white24,
+                  ),
+                ),
+
+                const Spacer(),
+
+                Column(
+                  children: const [
+                    Text(
+                      "Powered by Flutter",
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      "© 2026 All Rights Reserved",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+ main
                 ),
 
                 const SizedBox(height: 20),
+
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () => navi(context),
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: const Color(0xff1A2980),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+
+                    child: const Text(
+                      'Go To Home',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
